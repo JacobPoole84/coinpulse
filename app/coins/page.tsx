@@ -3,8 +3,8 @@ import { cn, formatCurrency, formatPercentage } from '@/lib/utils';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import React from 'react'
 import DataTable from '@/components/DataTable';
+import CoinsPagination from '@/components/CoinsPagination';
 
 const Coins = async ({ searchParams }: NextPageProps) => {
   const { page } = await searchParams;
@@ -74,6 +74,10 @@ const Coins = async ({ searchParams }: NextPageProps) => {
       cell: (coin) => formatCurrency(coin.market_cap),
     },]
 
+    const hasMorePages = coinsData.length === perPage;
+
+    const estimatedTotalPages = currentPage >= 100 ? Math.ceil(currentPage / 100) * 100 + 100 : 100
+
   return (
     <main id='coins-page'>
       <div className='content'>
@@ -86,6 +90,7 @@ const Coins = async ({ searchParams }: NextPageProps) => {
         headerCellClassName="py-3"
         bodyCellClassName="py-2!"
         />
+        <CoinsPagination currentPage={currentPage} totalPages={estimatedTotalPages} hasMorePages={hasMorePages} />
         </div>
     </main>
   );
