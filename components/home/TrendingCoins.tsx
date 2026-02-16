@@ -1,10 +1,11 @@
 import React from "react";
 import { fetcher } from "@/lib/coingecko.actions";
-import DataTable, { DataTableColumn } from "../DataTable";
+import DataTable from "../DataTable";
 import Image from "next/image";
 import Link from "next/link";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, formatPercentage } from "@/lib/utils";
 import { TrendingDown, TrendingUp } from "lucide-react";
+import { TrendingCoinsFallback } from "../fallback";
 
 const TrendingCoins = async () => {
   let trendingCoins: { coins: TrendingCoin[] } | null = null;
@@ -18,15 +19,7 @@ const TrendingCoins = async () => {
   }
 
   if (error || !trendingCoins) {
-    return (
-      <div id="trending-coins">
-        <h4>Trending Coins</h4>
-        <div className="p-5 text-red-500 text-center">
-          <p>Failed to load trending coins</p>
-          <p className="text-sm text-gray-400 mt-2">Please try refreshing the page</p>
-        </div>
-      </div>
-    );
+    return <TrendingCoinsFallback />;
   }
 
   const columns: DataTableColumn<TrendingCoin>[] = [
@@ -52,21 +45,16 @@ const TrendingCoins = async () => {
       cell: (coin) => {
         const item = coin.item;
         const isTrendingUp = item.data.price_change_percentage_24h.usd > 0;
-        const change = item.data.price_change_percentage_24h.usd;
-
         return (
-          <div
-            className={cn(
-              "flex items-center gap-2",
-              isTrendingUp ? "text-green-500" : "text-red-500"
-            )}
-          >
-            {isTrendingUp ? (
-              <TrendingUp width={16} height={16} />
-            ) : (
-              <TrendingDown width={16} height={16} />
-            )}
-            <span>{Math.abs(change).toFixed(2)}%</span>
+          <div className={cn("price-change", isTrendingUp ? "text-green-500" : "text-red-500")}>
+            <p className="flex items-center">
+              {formatPercentage(item.data.price_change_percentage_24h.usd)}
+              {isTrendingUp ? (
+                <TrendingUp width={16} height={16} />
+              ) : (
+                <TrendingDown width={16} height={16} />
+              )}
+            </p>
           </div>
         );
       },
@@ -81,14 +69,14 @@ const TrendingCoins = async () => {
   return (
     <div id="trending-coins">
       <h4>Trending Coins</h4>
-        <DataTable
-          data={trendingCoins.coins.slice(0, 6) || []}
-          columns={columns}
-          rowKey={(coin) => coin.item.id}
-          tableClassName="trending-coins-table"
-          headerCellClassName="py-3"
-          bodyCellClassName="py-2!"
-        />
+      <DataTable
+        data={trendingCoins.coins.slice(0, 6) || []}
+        columns={columns}
+        rowKey={(coin) => coin.item.id}
+        tableClassName="trending-coins-table"
+        headerCellClassName="py-3"
+        bodyCellClassName="py-2!"
+      />
     </div>
   );
 };

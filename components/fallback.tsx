@@ -18,6 +18,11 @@ export const CoinOverviewFallback: React.FC = () => {
           <div className="header-line-lg skeleton animate-pulse rounded" />
         </div>
       </div>
+      <div className="button-group mt-4">
+        {Array.from({ length: 7 }).map((_, index) => (
+          <div key={index} className="h-8 w-11 rounded-md skeleton animate-pulse" />
+        ))}
+      </div>
       <div className="chart">
         <div className="chart-skeleton skeleton animate-pulse rounded-xl" />
       </div>
@@ -26,8 +31,7 @@ export const CoinOverviewFallback: React.FC = () => {
 };
 
 export const TrendingCoinsFallback: React.FC = () => {
-  // Generate 3 skeleton rows for the table
-  const skeletonRows = Array.from({ length: 3 });
+  const skeletonRows = Array.from({ length: 6 });
 
   return (
     <div id="trending-coins-fallback">
@@ -64,6 +68,67 @@ export const TrendingCoinsFallback: React.FC = () => {
                 </TableCell>
                 <TableCell className="price-cell py-4 first:pl-5 last:pr-5">
                   <div className="h-4 w-20 skeleton animate-pulse rounded" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+};
+
+export const CategoriesFallback: React.FC = () => {
+  const skeletonRows = Array.from({ length: 10 });
+
+  return (
+    <div id="categories-fallback" className="custom-scrollbar">
+      <h4>Top Categories</h4>
+      <div className="mt-3">
+        <Table className="custom-scrollbar">
+          <TableHeader>
+            <TableRow className="hover:bg-transparent!">
+              <TableHead className="bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5">
+                Category
+              </TableHead>
+              <TableHead className="bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5">
+                Top Gainers
+              </TableHead>
+              <TableHead className="bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5">
+                24h Change
+              </TableHead>
+              <TableHead className="bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5">
+                Market Cap
+              </TableHead>
+              <TableHead className="bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5">
+                24h Volume
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {skeletonRows.map((_, rowIndex) => (
+              <TableRow
+                key={rowIndex}
+                className="overflow-hidden rounded-lg border-b border-purple-100/5 hover:bg-dark-400/30! relative"
+              >
+                <TableCell className="py-4 first:pl-5 last:pr-5">
+                  <div className="h-4 w-28 skeleton animate-pulse rounded" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-5 last:pr-5">
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <div key={index} className="h-7 w-7 rounded-full skeleton animate-pulse" />
+                    ))}
+                  </div>
+                </TableCell>
+                <TableCell className="py-4 first:pl-5 last:pr-5">
+                  <div className="h-4 w-20 skeleton animate-pulse rounded" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-5 last:pr-5">
+                  <div className="h-4 w-24 skeleton animate-pulse rounded" />
+                </TableCell>
+                <TableCell className="py-4 first:pl-5 last:pr-5">
+                  <div className="h-4 w-24 skeleton animate-pulse rounded" />
                 </TableCell>
               </TableRow>
             ))}
