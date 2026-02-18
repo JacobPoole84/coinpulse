@@ -53,22 +53,23 @@ const Coins = async ({ searchParams }: NextPageProps) => {
       header: "Rank",
       cellClassName: "rank-cell",
       cell: (coin) => (
-        <>
+        <Link href={`/coins/${coin.id}`} aria-label={`View name`}>
           #{displayRanks.get(coin.id) ?? "-"}
-          <Link href={`/coins/${coin.id}`} aria-label="View coin" />
-        </>
+        </Link>
       ),
     },
     {
       header: "Token",
       cellClassName: "token-cell",
       cell: (coin) => (
-        <div className="token-info">
-          <Image src={coin.image} alt={coin.name} width={36} height={36} />
-          <p>
-            {coin.name} ({coin.symbol.toUpperCase()})
-          </p>
-        </div>
+        <Link href={`/coins/${coin.id}`} aria-label={`View ${coin.name}`}>
+          <div className="token-info">
+            <Image src={coin.image} alt={coin.name} width={36} height={36} />
+            <p>
+              {coin.name} ({coin.symbol.toUpperCase()})
+            </p>
+          </div>
+        </Link>
       ),
     },
     {
