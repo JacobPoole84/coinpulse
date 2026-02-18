@@ -2,7 +2,8 @@ import Converter from "@/components/Converter";
 import LiveDataWrapper from "@/components/LiveDataWrapper";
 import { fetcher, getPools } from "@/lib/coingecko.actions";
 import { formatCurrency } from "@/lib/utils";
-import { ArrowUpRight, Divide, Link } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import React from "react";
 
 const page = async ({ params }: NextPageProps) => {
@@ -12,7 +13,7 @@ const page = async ({ params }: NextPageProps) => {
     fetcher<CoinDetailsData>(`/coins/${id}`, {
       dex_pair_format: "contract_address",
     }),
-    fetcher<OHLCData>(`/coins/${id}/ohlc`, {
+    fetcher<OHLCData[]>(`/coins/${id}/ohlc`, {
       vs_currency: "usd",
       days: 1,
       precision: "full",
